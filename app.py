@@ -7,6 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from pandas.plotting import scatter_matrix
+from keras.models import load_model
 
 model_path = 'Models/'
 
@@ -25,7 +26,7 @@ def models():
     model3 = pickle.load(open(model_path + 'gradient_boosting_classifier.pkl', 'rb'))
     model4 = pickle.load(open(model_path + 'bagging_classifier.pkl', 'rb'))
     model5 = pickle.load(open(model_path + 'stacking_classifier.pkl', 'rb'))
-    model6 = pickle.load(open(model_path + 'saved_model.pb', 'rb'))
+    model6 = load_model(model_path + 'saved_model.pb')
     return model1, model2, model3, model4, model5, model6
 
 
