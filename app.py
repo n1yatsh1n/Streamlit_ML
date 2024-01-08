@@ -26,7 +26,7 @@ def models():
     model3 = pickle.load(open(model_path + 'gradient_boosting_classifier.pkl', 'rb'))
     model4 = pickle.load(open(model_path + 'bagging_classifier.pkl', 'rb'))
     model5 = pickle.load(open(model_path + 'stacking_classifier.pkl', 'rb'))
-    model6 = load_model(model_path + 'saved_model.pb')
+    model6 = load_model(model_path + 'nr.h5')
     return model1, model2, model3, model4, model5, model6
 
 
