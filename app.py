@@ -182,7 +182,7 @@ def page_predictions():
             model_ml3 = pickle.load(open(model_path + 'gradient_boosting_classifier.pkl', 'rb'))
             model_ml4 = pickle.load(open(model_path + 'bagging_classifier.pkl', 'rb'))
             model_ml5 = pickle.load(open(model_path + 'stacking_classifier.pkl', 'rb'))
-            model_ml6 = pickle.load(open(model_path + 'nr.pkl', 'rb'))
+            model_ml6 = load_model(model_path + 'nr.h5')
 
             # Сделать предсказания на тестовых данных
             predictions_ml1 = model_ml1.predict(X_test)
