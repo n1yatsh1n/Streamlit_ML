@@ -201,7 +201,7 @@ def page_predictions():
             accuracy_ml6 = accuracy_score(y_test, predictions_ml6)
 
             st.success(f"Точность KNN: {accuracy_ml1}")
-            st.success(f"Точность DBSCAN: {accuracy_ml2}")
+            st.success(f"Точность K-Means: {accuracy_ml2}")
             st.success(f"Точность GradientBoostingClassifier: {accuracy_ml3}")
             st.success(f"Точность BaggingClassifier: {accuracy_ml4}")
             st.success(f"Точность StackingClassifier: {accuracy_ml5}")
