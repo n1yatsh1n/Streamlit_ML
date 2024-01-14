@@ -136,13 +136,13 @@ def page_predictions():
         # Интерактивные поля для ввода данных
         input_data = {}
         
-        input_data['distance_from_home'] = st.number_input("distance_from_home", min_value=0.0, max_value=100000.0, value=0.577820)
-        input_data['distance_from_last_transaction'] = st.number_input("distance_from_last_transaction", min_value=-10000.0, max_value=10000.0, value=-0.139317)
-        input_data['ratio_to_median_purchase_price'] = st.number_input("ratio_to_median_purchase_price", min_value=0.0, max_value=100000.0, value=2.34122)
-        input_data['repeat_retailer'] = st.number_input("repeat_retailer", min_value=0.0, max_value=1.0, step=1.0, value=1.0)
-        input_data['used_chip'] = st.number_input("used_chip", min_value=0.0, max_value=1.0, step=1.0, value=1.0)
-        input_data['used_pin_number'] = st.number_input("used_pin_number", min_value=0.0, max_value=1.0, step=1.0, value=0.0)
-        input_data['online_order'] = st.number_input("online_order", min_value=0.0, max_value=1.0, step=1.0, value=1.0)
+        input_data['distance_from_home'] = st.number_input("Расстояние от дома, где произошла транзакция", min_value=0.0, max_value=100000.0, value=0.577820)
+        input_data['distance_from_last_transaction'] = st.number_input("Расстояние от момента совершения последней транзакции", min_value=-10000.0, max_value=10000.0, value=-0.139317)
+        input_data['ratio_to_median_purchase_price'] = st.number_input("Отношение покупной цены транзакции к медианной цене покупки", min_value=0.0, max_value=100000.0, value=2.34122)
+        input_data['repeat_retailer'] = st.number_input("Транзакция, совершенная у того же продавца", min_value=0.0, max_value=1.0, step=1.0, value=1.0)
+        input_data['used_chip'] = st.number_input("Транзакция с помощью чипа (кредитной карты).", min_value=0.0, max_value=1.0, step=1.0, value=1.0)
+        input_data['used_pin_number'] = st.number_input("Транзакция, совершенная с использованием PIN-кода.", min_value=0.0, max_value=1.0, step=1.0, value=0.0)
+        input_data['online_order'] = st.number_input("Является ли транзакция онлайн-заказом.", min_value=0.0, max_value=1.0, step=1.0, value=1.0)
         
         
         if st.button('Сделать предсказание'):
@@ -167,14 +167,32 @@ def page_predictions():
             prediction_ml4 = model_ml4.predict(scaled_input)
             prediction_ml5 = model_ml5.predict(scaled_input)
             prediction_ml6 = (model_ml6.predict(scaled_input) > 0.5).astype(int)
-
+            
             # Вывод результатов
-            st.success(f"Результат предсказания KNN: {prediction_ml1[0]}")
-            st.success(f"Результат предсказания K-Means: {prediction_ml2[0]}")
-            st.success(f"Результат предсказания GradientBoostingClassifier: {prediction_ml3[0]}")
-            st.success(f"Результат предсказания BaggingClassifier: {prediction_ml4[0]}")
-            st.success(f"Результат предсказания StackingClassifier: {prediction_ml5[0]}")
-            st.success(f"Результат предсказания нейронной сети Tensorflow: {prediction_ml6[0]}")
+            if prediction_ml1[0] == 1:
+                st.success(f"По предсказанию модели KNN транзакция мошенническая")
+            elif prediction_ml1[0] == 0:
+                st.success(f"По предсказанию модели KNN транзакция НЕ мошенническая")
+            if prediction_ml2[0] == 1:
+                st.success(f"По предсказанию модели K-Means транзакция мошенническая")
+            elif prediction_ml2[0] == 0:
+                st.success(f"По предсказанию модели K-Means транзакция НЕ мошенническая")
+            if prediction_ml3[0] == 1:
+                st.success(f"По предсказанию модели GradientBoostingClassifier транзакция мошенническая")
+            elif prediction_ml3[0] == 0:
+                st.success(f"По предсказанию модели GradientBoostingClassifier транзакция НЕ мошенническая")
+            if prediction_ml4[0] == 1:
+                st.success(f"По предсказанию модели BaggingClassifier транзакция мошенническая")
+            elif prediction_ml4[0] == 0:
+                st.success(f"По предсказанию модели BaggingClassifier транзакция НЕ мошенническая")
+            if prediction_ml5[0] == 1:
+                st.success(f"По предсказанию модели StackingClassifier транзакция мошенническая")
+            elif prediction_ml5[0] == 0:
+                st.success(f"По предсказанию модели StackingClassifier транзакция НЕ мошенническая")
+            if prediction_ml6[0] == 1:
+                st.success(f"По предсказанию модели нейронной сети Tensorflow транзакция мошенническая")
+            elif prediction_ml6[0] == 0:
+                st.success(f"По предсказанию модели нейронной сети Tensorflow транзакция НЕ мошенническая")
     else:
         try:
             model_ml1 = pickle.load(open(model_path + 'knn.pkl', 'rb'))
@@ -199,7 +217,8 @@ def page_predictions():
             accuracy_ml4 = accuracy_score(y_test, predictions_ml4)
             accuracy_ml5 = accuracy_score(y_test, predictions_ml5)
             accuracy_ml6 = accuracy_score(y_test, predictions_ml6)
-
+            
+            
             st.success(f"Точность KNN: {accuracy_ml1}")
             st.success(f"Точность K-Means: {accuracy_ml2}")
             st.success(f"Точность GradientBoostingClassifier: {accuracy_ml3}")
